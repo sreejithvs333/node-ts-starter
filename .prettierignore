@@ -1,2 +1,4 @@
+#Ignore
 dist
 node_modules
+spec
