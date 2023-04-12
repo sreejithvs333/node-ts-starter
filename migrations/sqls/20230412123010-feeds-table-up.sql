@@ -1,0 +1,1 @@
+CREATE TABLE feeds (id SERIAL PRIMARY KEY, title VARCHAR(100), description text);
