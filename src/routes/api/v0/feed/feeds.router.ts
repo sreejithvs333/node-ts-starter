@@ -1,7 +1,6 @@
 import express from "express";
 import { FeedStore } from "./models/feed";
 const feeds = express.Router();
-const { POSTGRES_PASSWORD } = process.env;
 
 feeds.get("/", async (req: express.Request, res: express.Response) => {
   const store = new FeedStore();

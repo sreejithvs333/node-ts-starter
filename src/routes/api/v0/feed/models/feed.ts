@@ -1,7 +1,7 @@
 import Client from "../../../../../database";
 
 export type Feed = {
-  id: Number;
+  id: number;
   title: string;
   description: string;
 };
