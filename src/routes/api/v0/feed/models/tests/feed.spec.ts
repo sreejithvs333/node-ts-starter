@@ -1,4 +1,4 @@
-import { Feed, FeedStore } from "../feed";
+import { FeedStore } from "../feed";
 
 const feedStore = new FeedStore();
 describe("Feed modal", () => {
