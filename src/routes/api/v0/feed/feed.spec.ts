@@ -1,5 +1,5 @@
 import supertest from "supertest";
-import app from "../..";
+import app from "../../../..";
 
 describe("sample suite", () => {
   it("should return 200", async () => {
