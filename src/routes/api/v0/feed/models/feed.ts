@@ -31,14 +31,25 @@ export class FeedStore {
   }
 
   async read(id: number): Promise<Feed> {
+    let connection;
     try {
-      const connection = await Client.connect();
+      connection = await Client.connect();
+    } catch (err) {
+      throw new Error(`Failed to connect to the database. Error: ${err}`);
+    }
+    try {
       const sql = `SELECT * FROM feeds WHERE id=($1)`;
       const result = await connection.query(sql, [id]);
-      connection.release();
+      if (result.rowCount === 0) {
+        throw new Error(`Cannot find feed with id=${id}.`);
+      }
       return result.rows[0];
     } catch (err) {
       throw new Error(`Cannot find feed with id=${id}. Error: ${err}`);
+    } finally {
+      if (connection) {
+        connection.release();
+      }
     }
   }
 
