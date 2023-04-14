@@ -1,7 +1,7 @@
 import Client from "../../../../../database";
 
 export type Feed = {
-  id: number;
+  id?: number;
   title: string;
   description: string;
 };
@@ -18,18 +18,6 @@ export class FeedStore {
     }
   }
 
-  async show(id: number): Promise<Feed> {
-    try {
-      const connection = await Client.connect();
-      const sql = `SELECT * FROM feeds WHERE id=($1)`;
-      const result = await connection.query(sql, [id]);
-      connection.release();
-      return result.rows[0];
-    } catch (err) {
-      throw new Error(`Cannot find feed with id=${id}. Error: ${err}`);
-    }
-  }
-
   async create(feed: Feed): Promise<Feed> {
     try {
       const connection = await Client.connect();
@@ -42,16 +30,27 @@ export class FeedStore {
     }
   }
 
+  async read(id: number): Promise<Feed> {
+    try {
+      const connection = await Client.connect();
+      const sql = `SELECT * FROM feeds WHERE id=($1)`;
+      const result = await connection.query(sql, [id]);
+      connection.release();
+      return result.rows[0];
+    } catch (err) {
+      throw new Error(`Cannot find feed with id=${id}. Error: ${err}`);
+    }
+  }
+
   async update(feed: Feed, fieldsToUpdate: (keyof Feed)[]): Promise<Feed> {
     try {
       const connection = await Client.connect();
       const sql = {
-        text: `UPDATE feeds SET ${fieldsToUpdate
-          .map((field, i) => `${field} = $${i + 1}`)
-          .join(", ")} WHERE id = $${fieldsToUpdate.length + 1}`,
-        values: [...fieldsToUpdate.map((field) => feed[field]), feed.id]
+        text: `UPDATE feeds SET ${fieldsToUpdate.map((field, i) => `${field}=($${i + 1})`).join(', ')} WHERE id=($${fieldsToUpdate.length + 1}) RETURNING *`,
+        values: [...fieldsToUpdate.map((field) => feed[field]), feed.id],
       };
       const result = await connection.query(sql);
+      connection.release();
       return result.rows[0];
     } catch (err) {
       throw new Error(`Couldn't update feed with id=${feed.id}. Error: ${err}`);
