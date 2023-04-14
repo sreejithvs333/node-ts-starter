@@ -46,8 +46,10 @@ export class FeedStore {
     try {
       const connection = await Client.connect();
       const sql = {
-        text: `UPDATE feeds SET ${fieldsToUpdate.map((field, i) => `${field}=($${i + 1})`).join(', ')} WHERE id=($${fieldsToUpdate.length + 1}) RETURNING *`,
-        values: [...fieldsToUpdate.map((field) => feed[field]), feed.id],
+        text: `UPDATE feeds SET ${fieldsToUpdate
+          .map((field, i) => `${field}=($${i + 1})`)
+          .join(", ")} WHERE id=($${fieldsToUpdate.length + 1}) RETURNING *`,
+        values: [...fieldsToUpdate.map((field) => feed[field]), feed.id]
       };
       const result = await connection.query(sql);
       connection.release();

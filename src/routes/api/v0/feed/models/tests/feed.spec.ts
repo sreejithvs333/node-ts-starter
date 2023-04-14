@@ -5,7 +5,7 @@ describe("Feed modal", () => {
   it("should have an index method", () => {
     expect(store.index).toBeDefined();
   });
-  
+
   it("should have a create method", () => {
     expect(store.create).toBeDefined();
   });
@@ -49,17 +49,23 @@ describe("Feed modal", () => {
     });
   });
 
-  it("update() should return the updated feed object",async () => {
+  it("update() should return the updated feed object", async () => {
     const feed = {
       id: 1,
       title: "Updated title",
       description: "Some description"
-    }
-    const result = await store.update(feed, ['title']);
+    };
+    const result = await store.update(feed, ["title"]);
     expect(result).toEqual({
       id: 1,
       title: "Updated title",
       description: "Some description"
     });
-  })
+  });
+
+  it("delete() should remove the feed object", async () => {
+    await store.delete(1);
+    const result = await store.index();
+    expect(result).toEqual([]);
+  });
 });
