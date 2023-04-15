@@ -9,7 +9,11 @@ feeds.get("/", async (req: Request, res: Response) => {
     const result = await store.index();
     res.status(200).json(result);
   } catch (err) {
-    res.status(400).json(err);
+    if (err instanceof Error) {
+      res.status(400).json({ error: err.message });
+    } else {
+      res.status(400).json(err);
+    }
   }
 });
 
@@ -20,7 +24,11 @@ feeds.get("/:id", async (req: Request, res: Response) => {
     const result = await store.read(id as unknown as number);
     res.status(200).json(result);
   } catch (err) {
-    res.status(400).json(err);
+    if (err instanceof Error) {
+      res.status(400).json({ error: err.message });
+    } else {
+      res.status(400).json(err);
+    }
   }
 });
 
@@ -34,7 +42,11 @@ feeds.post("/", async (req: Request, res: Response) => {
     const result = await store.create(feed);
     res.status(200).json(result);
   } catch (err) {
-    res.status(400).json(err);
+    if (err instanceof Error) {
+      res.status(400).json({ error: err.message });
+    } else {
+      res.status(400).json(err);
+    }
   }
 });
 
@@ -46,7 +58,11 @@ feeds.put("/:id", async (req: Request, res: Response) => {
     const updatedFeed = await store.update(feed, fieldsToUpdate);
     return res.status(200).json(updatedFeed);
   } catch (err) {
-    res.status(400).json(err);
+    if (err instanceof Error) {
+      res.status(400).json({ error: err.message });
+    } else {
+      res.status(400).json(err);
+    }
   }
 });
 
@@ -57,7 +73,11 @@ feeds.delete("/:id", async (req: Request, res: Response) => {
     const result = await store.delete(id as unknown as number);
     res.status(200).json(result);
   } catch (err) {
-    res.status(400).json(err);
+    if (err instanceof Error) {
+      res.status(400).json({ error: err.message });
+    } else {
+      res.status(400).json(err);
+    }
   }
 });
 
