@@ -1,34 +1,34 @@
-import { FeedStore } from "../feed";
+import { FeedService } from "../../../src/v0/services/feeds.service";
 
-const store = new FeedStore();
+const feedService = new FeedService();
 describe("Feed modal", () => {
   it("should have an index method", () => {
-    expect(store.index).toBeDefined();
+    expect(feedService.index).toBeDefined();
   });
 
   it("should have a create method", () => {
-    expect(store.create).toBeDefined();
+    expect(feedService.create).toBeDefined();
   });
 
   it("should have a read method", () => {
-    expect(store.read).toBeDefined();
+    expect(feedService.read).toBeDefined();
   });
 
   it("should have an update method", () => {
-    expect(store.update).toBeDefined();
+    expect(feedService.update).toBeDefined();
   });
 
   it("should have a delete method", () => {
-    expect(store.delete).toBeDefined();
+    expect(feedService.delete).toBeDefined();
   });
 
   it("index() should return a list of products", async () => {
-    const result = await store.index();
+    const result = await feedService.index();
     expect(result).toEqual([]);
   });
 
   it("create() should add a feed", async () => {
-    const result = await store.create({
+    const result = await feedService.create({
       title: "Some title",
       description: "Some description"
     });
@@ -41,7 +41,7 @@ describe("Feed modal", () => {
   });
 
   it("read() should return feed object", async () => {
-    const result = await store.read(1);
+    const result = await feedService.read(1);
     expect(result).toEqual({
       id: 1,
       title: "Some title",
@@ -55,7 +55,7 @@ describe("Feed modal", () => {
       title: "Updated title",
       description: "Some description"
     };
-    const result = await store.update(feed, ["title"]);
+    const result = await feedService.update(feed, ["title"]);
     expect(result).toEqual({
       id: 1,
       title: "Updated title",
@@ -64,8 +64,8 @@ describe("Feed modal", () => {
   });
 
   it("delete() should remove the feed object", async () => {
-    await store.delete(1);
-    const result = await store.index();
+    await feedService.delete(1);
+    const result = await feedService.index();
     expect(result).toEqual([]);
   });
 });

@@ -1,4 +1,4 @@
-import v0routes from "./api/v0/v0.router";
+import v0routes from "./v0/controllers/index.controller";
 import express from "express";
 const routes = express.Router();
 

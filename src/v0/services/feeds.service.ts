@@ -1,11 +1,7 @@
-import Client from "../../../../../database";
+import Client from "../../database";
+import Feed from "../models/feed.model";
 
-export type Feed = {
-  id?: number;
-  title: string;
-  description: string;
-};
-export class FeedStore {
+export class FeedService {
   async index(): Promise<Feed[]> {
     let connection;
     try {

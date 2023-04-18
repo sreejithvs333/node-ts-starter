@@ -1,12 +1,14 @@
 import express from "express";
 import { Request, Response } from "express";
-import { Feed, FeedStore } from "./models/feed";
+import { FeedService } from "../services/feeds.service";
+import Feed from "../models/feed.model";
+
 const feeds = express.Router();
 
 feeds.get("/", async (req: Request, res: Response) => {
-  const store = new FeedStore();
+  const feedService = new FeedService();
   try {
-    const result = await store.index();
+    const result = await feedService.index();
     res.status(200).json(result);
   } catch (err) {
     if (err instanceof Error) {
@@ -18,10 +20,10 @@ feeds.get("/", async (req: Request, res: Response) => {
 });
 
 feeds.get("/:id", async (req: Request, res: Response) => {
-  const store = new FeedStore();
+  const feedService = new FeedService();
   try {
     const { id } = req.query;
-    const result = await store.read(id as unknown as number);
+    const result = await feedService.read(id as unknown as number);
     res.status(200).json(result);
   } catch (err) {
     if (err instanceof Error) {
@@ -33,13 +35,13 @@ feeds.get("/:id", async (req: Request, res: Response) => {
 });
 
 feeds.post("/", async (req: Request, res: Response) => {
-  const store = new FeedStore();
+  const feedService = new FeedService();
   const feed: Feed = {
     title: req.body.title,
     description: req.body.description
   };
   try {
-    const result = await store.create(feed);
+    const result = await feedService.create(feed);
     res.status(200).json(result);
   } catch (err) {
     if (err instanceof Error) {
@@ -51,11 +53,11 @@ feeds.post("/", async (req: Request, res: Response) => {
 });
 
 feeds.put("/:id", async (req: Request, res: Response) => {
-  const store = new FeedStore();
+  const feedService = new FeedService();
   try {
     const feed: Feed = req.body;
     const fieldsToUpdate: (keyof Feed)[] = Object.keys(feed) as (keyof Feed)[];
-    const updatedFeed = await store.update(feed, fieldsToUpdate);
+    const updatedFeed = await feedService.update(feed, fieldsToUpdate);
     return res.status(200).json(updatedFeed);
   } catch (err) {
     if (err instanceof Error) {
@@ -67,10 +69,10 @@ feeds.put("/:id", async (req: Request, res: Response) => {
 });
 
 feeds.delete("/:id", async (req: Request, res: Response) => {
-  const store = new FeedStore();
+  const feedService = new FeedService();
   try {
     const { id } = req.query;
-    const result = await store.delete(id as unknown as number);
+    const result = await feedService.delete(id as unknown as number);
     res.status(200).json(result);
   } catch (err) {
     if (err instanceof Error) {
