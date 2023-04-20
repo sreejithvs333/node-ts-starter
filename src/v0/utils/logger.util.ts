@@ -1,41 +1,42 @@
-import winston from "winston";
-import { format } from "winston";
+import winston from 'winston';
+import { format } from 'winston';
 
-// Define log levels
+// Define log levels without 'trace'
 const logLevels = {
-  levels: {
-    error: 0,
-    warn: 1,
-    info: 2,
-    debug: 3,
-    trace: 4
-  },
-  colors: {
-    error: "red",
-    warn: "yellow",
-    info: "green",
-    debug: "blue",
-    trace: "magenta"
-  }
+  error: 0,
+  warn: 1,
+  info: 2,
+  debug: 3,
+};
+
+// Define log colors
+const logColors = {
+  error: 'red',
+  warn: 'yellow',
+  info: 'green',
+  debug: 'blue',
 };
 
 // Create logger instance
 const logger = winston.createLogger({
-  level: "info",
-  levels: logLevels.levels,
+  level: 'info', // Set log level to 'info'
+  levels: logLevels,
   format: format.combine(
     format.timestamp(),
     format.printf((info) => `${info.timestamp} [${info.level.toUpperCase()}] ${info.message}`)
   ),
   transports: [
     new winston.transports.Console({
-      format: format.combine(format.colorize(), format.simple())
+      format: format.combine(format.colorize(), format.simple()),
     }),
     new winston.transports.File({
-      filename: "logs/app.log",
-      format: format.combine(format.timestamp(), format.json())
-    })
-  ]
+      filename: 'logs/app.log',
+      format: format.combine(format.timestamp(), format.json()),
+    }),
+  ],
 });
+
+// Add log colors
+winston.addColors(logColors);
 
 export default logger;

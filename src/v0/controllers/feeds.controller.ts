@@ -2,6 +2,7 @@ import express from "express";
 import { Request, Response } from "express";
 import { FeedService } from "../services/feeds.service";
 import Feed from "../models/feed.model";
+import logger from "../utils/logger.util";
 
 const feeds = express.Router();
 
@@ -9,8 +10,18 @@ feeds.get("/", async (req: Request, res: Response) => {
   const feedService = new FeedService();
   try {
     const result = await feedService.index();
+    // Log an info message
+    logger.info("Info message");
+
+    // Log a debug message
+    logger.debug("Debug message");
     res.status(200).json(result);
   } catch (err) {
+    // Log an error message
+    logger.error("Error message");
+
+    // Log a warning message
+    logger.warn("Warning message");
     if (err instanceof Error) {
       res.status(400).json({ error: err.message });
     } else {
@@ -73,6 +84,8 @@ feeds.delete("/:id", async (req: Request, res: Response) => {
   try {
     const { id } = req.query;
     const result = await feedService.delete(id as unknown as number);
+    
+
     res.status(200).json(result);
   } catch (err) {
     if (err instanceof Error) {
