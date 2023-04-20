@@ -75,7 +75,7 @@ down: db-migrate down
 
 ```
 {
-  "defaultEnv": "dev",
+  "defaultEnv": "development",
   "dev": {
     "driver": "pg",
     "host": "127.0.0.1",

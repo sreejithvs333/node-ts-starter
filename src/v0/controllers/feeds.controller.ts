@@ -84,7 +84,6 @@ feeds.delete("/:id", async (req: Request, res: Response) => {
   try {
     const { id } = req.query;
     const result = await feedService.delete(id as unknown as number);
-    
 
     res.status(200).json(result);
   } catch (err) {
