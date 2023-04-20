@@ -17,9 +17,15 @@ const logColors = {
   debug: "blue"
 };
 
+// Get the current environment
+const env = process.env.NODE_ENV || 'development'; // default to 'development' if NODE_ENV is not set
+
+// Set the log level based on the current environment
+const logLevel = env === 'production' ? 'info' : 'debug';
+
 // Create logger instance
 const logger = winston.createLogger({
-  level: "info", // Set log level to 'info'
+  level: logLevel,
   levels: logLevels,
   format: format.combine(
     format.timestamp(),
