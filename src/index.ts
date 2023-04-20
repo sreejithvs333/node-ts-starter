@@ -3,7 +3,7 @@ import routes from "./index.controller";
 import cors from "cors";
 const app = express();
 const port = 3000;
-
+import loggerMiddleware from "./v0/utils/request-logger.util";
 const corsOptions: cors.CorsOptions = {
   // white listing all domain. Replace it with client domain
   origin: "*",
@@ -11,6 +11,7 @@ const corsOptions: cors.CorsOptions = {
 };
 app.use(cors(corsOptions));
 app.use(express.json());
+app.use(loggerMiddleware);
 app.use("/api", routes);
 
 app.listen(port, () => {
