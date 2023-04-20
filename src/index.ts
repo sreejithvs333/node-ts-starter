@@ -3,7 +3,7 @@ import routes from "./index.controller";
 import cors from "cors";
 const app = express();
 const port = 3000;
-import loggerMiddleware from "./v0/utils/request-logger.util";
+import loggerMiddleware from "./v0/middlewares/request-logger.mw";
 const corsOptions: cors.CorsOptions = {
   // white listing all domain. Replace it with client domain
   origin: "*",
